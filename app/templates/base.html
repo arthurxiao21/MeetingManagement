@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {% block head %}{% endblock %}
+    <title>研究生例会管理信息系统 | {% block title %}标题{% endblock %}</title>
+    <link href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='plugins/bootstrap-slider/slider.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='plugins/pace/pace.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='plugins/bootstrap-switch/bootstrap-switch.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='plugins/select2/select2.min.css') }}" rel="stylesheet">
+    {% block css %}{% endblock %}
+    <link href="{{ url_for('static', filename='plugins/adminlte/css/AdminLTE.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='plugins/adminlte/css/skins/skin-blue.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/global.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="plugins/html5shiv.min.js"></script>
+    <script src="plugins/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <!--头部-->
+    <header class="main-header">
+        <a class="logo" href="{{ url_for('main.index') }}">
+            <span class="logo-mini"><b>N</b></span>
+            <span class="logo-lg"><b>研究生例会管理信息系统</b></span>
+        </a>
+        <nav class="navbar navbar-static-top">
+            <a class="sidebar-toggle" data-toggle="offcanvas" href="#" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown user user-menu">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img alt="User Image" class="user-image"
+                                 src="{{ url_for('static', filename='images/avatar.jpg') }}">
+                            <span class="hidden-xs">{{current_user.username}}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-header">
+                                <img alt="User Image"
+                                     class="img-circle" src="{{ url_for('static', filename='images/avatar.jpg') }}">
+                                <p>
+                                    <span>{{current_user.fullname}}</span>
+                                    <small>{{current_user.email}}</small>
+                                </p>
+                            </li>
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a class="btn btn-default btn-flat" href="{{ url_for('main.index') }}">统计信息</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a class="btn btn-default btn-flat" href="{{ url_for('auth.logout') }}">退出登录</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!--侧边栏-->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="header">功能导航</li>
+                <li>
+                    <a href="{{ url_for('main.index') }}">
+                        <i class="fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-user"></i>
+                        <span>会议日程</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ url_for('schedule.scheduleedit') }}"><i class="fa fa-circle-o"></i> 编辑会议日程</a>
+                        </li>
+                        <li><a href="{{ url_for('schedule.schedulelist') }}"><i class="fa fa-circle-o"></i> 查询会议日程</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-user"></i>
+                        <span>会议通知</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ url_for('notice.noticeedit') }}"><i class="fa fa-circle-o"></i> 编辑会议通知</a></li>
+                        <li><a href="{{ url_for('notice.noticelist') }}"><i class="fa fa-circle-o"></i> 查询会议通知</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-user"></i>
+                        <span>会议任务</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{url_for('task.taskedit')}}"><i class="fa fa-circle-o"></i> 编辑会议任务</a></li>
+                        <li><a href="{{url_for('task.tasklist')}}"><i class="fa fa-circle-o"></i> 查询会议任务</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-user"></i>
+                        <span>会议文件</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ url_for('file.fileedit') }}"><i class="fa fa-circle-o"></i> 编辑会议文件</a></li>
+                        <li><a href="{{ url_for('file.filelist') }}"><i class="fa fa-circle-o"></i> 查询会议文件</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-user"></i>
+                        <span>会议讨论</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href=""><i class="fa fa-circle-o"></i> 编辑会议讨论</a></li>
+                        <li><a href=""><i class="fa fa-circle-o"></i> 查询会议讨论</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-bug"></i>
+                        <span>会议室管理</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ url_for('room.roomedit') }}"><i class="fa fa-circle-o"></i> 编辑会议室信息</a></li>
+                        <li><a href="{{ url_for('room.roomlist') }}"><i class="fa fa-circle-o"></i> 查询会议室信息</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-send"></i>
+                        <span>用户管理</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ url_for('auth.useredit') }}"><i class="fa fa-circle-o"></i> 编辑用户信息</a></li>
+                        <li><a href="{{ url_for('auth.userlist') }}"><i class="fa fa-circle-o"></i> 查询用户信息</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cog"></i>
+                        <span>系统统计</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href=""><i class="fa fa-circle-o"></i> 功能点</a></li>
+                        <li><a href=""><i class="fa fa-circle-o"></i> 功能点</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </aside>
+
+    <div class="content-wrapper">
+        <!--导航栏-->
+        {% block navbar %}{% endblock %}
+        <!--正文-->
+        <section class="content">
+            {% block content %}{% endblock %}
+
+        </section>
+    </div>
+    <!--页脚-->
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>版本号</b> 1.0.0
+        </div>
+        Copyright &copy; 2019 <a href="">@xiaojian</a>
+    </footer>
+    <!--模态窗口-->
+    <div class="modal-wrapper">
+        <div class="modal fade" id="alert-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                        <!--<span aria-hidden="true">&times;</span></button>-->
+                        <h4 class="modal-title">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        提示内容
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default pull-left btn-no" data-dismiss="modal" type="button">取消</button>
+                        <button class="btn btn-default btn-yes" data-dismiss="modal" type="button">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/fastclick/fastclick.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/pace/pace.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/bootstrap-switch/bootstrap-switch.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/select2/select2.full.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/adminlte/js/app.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/global.js') }}"></script>
+<script charset="UTF-8" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }}"></script>
+<script charset="UTF-8" src="{{ url_for('static', filename='js/locales/bootstrap-datetimepicker.zh-CN.js')}}"></script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        format: "yyyy-mm-dd hh:mm:ss",
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    $('.form_date').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
